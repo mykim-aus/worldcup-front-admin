@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import SelectCountModal from '../components/modals/SelectCountModal';
-import { fetchImages } from '../api/fetchImages';
+// import { fetchImages } from '../api/fetchImages'; // api 호출 함수, 시간당 50번이라 가져온 뒤 미사용
+import randomImg from '../../randomImg.json';
 import Image from 'next/image';
+import { shuffleImgs } from '../../utils/imageUtils';
 
 interface Image {
   id: number;
@@ -12,91 +14,76 @@ interface Image {
 
 export default function Tournament() {
   const [isModalOpen, setModalOpen] = useState(true); // 모달 여닫힘 여부
-  const [selectedRound, setSelectedRound] = useState(4); // 기본 라운드 수 default4
-  const [images, setImages] = useState<Image[]>([]); // api 호출 이미지
-  const [displays, setDisplays] = useState<Image[]>([]); // 현재 이미지(좌, 우)
-  const [winners, setWinners] = useState<Image[]>([]);
-  const [round, setRound] = useState(1);
+  const [totalRound, setTotalRound] = useState(8); // 총 라운드 수 최소 4강이므로 8
+  let [images, setImages] = useState<Image[]>([]); // api 호출 이미지
+  const [displays, setDisplays] = useState<Image[]>([]); // 현재 보여줄 이미지
+  const [winners, setWinners] = useState<Image[]>([]); // 이긴 이미지 모음
+  const [round, setRound] = useState(1); // 현재 라운드
 
-  // 모달 여닫힘 처리
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
+  // 모달 닫힘 처리
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-
   // 라운드 선택 시, 모달 닫힘 처리 및 round값 가져오기
   const handleSelectRound = (round: any) => {
-    setSelectedRound(round);
+    setTotalRound(round);
     setModalOpen(false);
-  };
-
-  // 이미지를 랜덤하게 섞는 함수
-  const shuffleImages = () => {
-    setImages((prevImages) => {
-      for (let i = prevImages.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [prevImages[i], prevImages[j]] = [prevImages[j], prevImages[i]];
-      }
-      return [...prevImages];
-    });
   };
 
   // 이미지 가져와서 preload
   const getImages = async (count: number) => {
-    const newImages = await fetchImages(count);
-    setImages((prevImages) => [...prevImages, ...newImages]);
-    shuffleImages();
-    preloadImages(newImages.map((image: Image) => image.url)); // Preload fetched images
+    // const newImages = await fetchImages(count); // 원본
+    let newImages = randomImg;
+    newImages = shuffleImgs(newImages); // shuffle
+    newImages = newImages.slice(0, count); // 원본은 count자르기 구현
+
+    setImages((prevImages) => [...prevImages, ...newImages]); // set
+    shuffleImgs(newImages); // shuffle
+    preloadImages(newImages.map((image: Image) => image)); //preload
   };
 
   // 이미지 preload
-  const preloadImages = (urls: string[]) => {
-    urls.forEach((url) => {
-      const img = {
-        src: url,
-      };
+  const preloadImages = (images: Image[]) => {
+    images.forEach((img) => {
+      const imageElement = document.createElement('img');
+      imageElement.src = img.url;
     });
   };
 
-  //
-  useEffect(() => {
-    if (selectedRound <= 4) {
-      getImages(selectedRound);
-    } else if (selectedRound > 4) {
-      getImages(selectedRound - 4);
+  // 이미지 클릭 시 처리
+  const handleImageClick = (clickedImage: Image) => {
+    setWinners((prevWinners) => [...prevWinners, clickedImage]);
+    if (round + 1 <= totalRound) {
+      const startIndex = round * 2;
+      const endIndex = startIndex + 2;
+      setDisplays(images.slice(startIndex, endIndex));
+      setRound((prevRound) => prevRound + 1);
+
+      console.log(startIndex);
+      console.log(endIndex);
+    } else {
+      setWinners((prevWinners: any) => [...prevWinners, totalRound]);
+      images = winners;
+      setRound(1);
     }
-  }, [selectedRound]);
+    console.log('round', round);
+    console.log('totalRound', totalRound);
+    console.log('winners', winners);
+  };
+
+  useEffect(() => {
+    if (totalRound <= 8) {
+      getImages(totalRound);
+    } else if (totalRound > 8) {
+      getImages(totalRound - 8);
+    }
+  }, []);
 
   useEffect(() => {
     if (images.length >= 2) {
       setDisplays([images[0], images[1]]);
     }
   }, [images]);
-
-  // const clickHandler = (id) => () => {
-  //   if (winners.length === 0) {
-  //     setDisplays();
-  //   }
-  // };
-
-  // const clickHandler = (id:number) => () => {
-  //   if (foods.length <= 2) {
-  //     if (winners.length === 0) {
-  //       setDisplays([food]);
-  //     } else {
-  //       let updatedFood = [...winners, food];
-  //       setFoods(updatedFood);
-  //       setDisplays([updatedFood[0], updatedFood[1]]);
-  //       setWinners([]);
-  //     }
-  //   } else if (foods.length > 2) {
-  //     setWinners([...winners, food]);
-  //     setDisplays([foods[2], foods[3]]);
-  //     setFoods(foods.slice(2));
-  //   }
-  // };
 
   return (
     <div className="flex items-center justify-center">
@@ -112,22 +99,29 @@ export default function Tournament() {
         <div className="w-full">
           <div className="bg-white w-full h-1/12 p-4 flex items-center justify-center">
             <h1 className="text-black text-center text-2xl font-bold">
-              월드컵 {selectedRound}강 ({round}/{selectedRound})
+              월드컵 {totalRound}강 ({round}/{totalRound})
             </h1>
           </div>
           <div className="flex items-center justify-center">
             {displays.map((image: Image, index) => {
               return (
                 <div className="flex-1" key={image.id}>
-                  <Image
+                  <img
                     key={image.id}
                     src={image.url}
                     height={400}
                     width={400}
                     alt={`image-${index}`}
-                    quality={80}
-                    priority={true}
+                    loading="lazy"
+                    onClick={() => handleImageClick(image)}
                   />
+                  {/* <link
+                    rel="preload"
+                    as="image"
+                    type="image/webp"
+                    image
+                    >
+                  </link> */}
                 </div>
               );
             })}
@@ -140,7 +134,7 @@ export default function Tournament() {
 
 // export default function ParentComponent() {
 //   const [isModalOpen, setModalOpen] = useState(true); // 모달 여닫힘 여부
-//   const [selectedRound, setSelectedRound] = useState(4); // 기본 라운드 수 default4
+//   const [totalRound, setTotalRound] = useState(4); // 기본 라운드 수 default4
 //   const [images, setImages] = useState<Image[]>([]); // api 호출 이미지
 //   const [currentImages, setCurrentImages] = useState<Image[]>([]); // 현재 이미지
 //   const [chosenImages, setChosenImages] = useState<number[]>([]);
@@ -155,7 +149,7 @@ export default function Tournament() {
 //   };
 
 //   const handleSelectRound = (round: any) => {
-//     setSelectedRound(round);
+//     setTotalRound(round);
 //     setModalOpen(false);
 //   };
 
@@ -208,12 +202,12 @@ export default function Tournament() {
 //   };
 
 //   useEffect(() => {
-//     if (selectedRound <= 4) {
-//       getImages(selectedRound);
-//     } else if (selectedRound > 4) {
-//       getImages(selectedRound - 4);
+//     if (totalRound <= 4) {
+//       getImages(totalRound);
+//     } else if (totalRound > 4) {
+//       getImages(totalRound - 4);
 //     }
-//   }, [selectedRound]);
+//   }, [totalRound]);
 
 //   useEffect(() => {
 //     if (images.length >= 2) {
@@ -237,11 +231,11 @@ export default function Tournament() {
 //           title={''}
 //         />
 //       )}
-//       {selectedRound && (
-//         <p className="text-lg">선택된 라운드: {selectedRound}</p>
+//       {totalRound && (
+//         <p className="text-lg">선택된 라운드: {totalRound}</p>
 //       )}
 //       <p className="text-lg">
-//         현재 라운드: {round} / {selectedRound}
+//         현재 라운드: {round} / {totalRound}
 //       </p>
 //       {/*//!@#$: 현재 라운드를 표시*/}
 

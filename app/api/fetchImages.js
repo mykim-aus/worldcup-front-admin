@@ -21,6 +21,8 @@ const fetchImages = async (count) => {
     };
   });
 
+  console.log(images);
+
   return images;
 };
 

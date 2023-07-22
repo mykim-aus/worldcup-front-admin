@@ -1,0 +1,23 @@
+{
+  "regist": "Register",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "save": "Save",
+  "select": "Select",
+  "close": "Close",
+  "search": "Search",
+  "confirm": "Confirm",
+  "update": "Update",
+  "success": "Success",
+  "fail": "Fail",
+  "error": "Error",
+  "warning": "Warning",
+  "info": "Info",
+  "required": "Required",
+  "optional": "Optional",
+  "all": "All",
+  "none": "None",
+  "more": "More",
+  "loading": "Loading"
+}

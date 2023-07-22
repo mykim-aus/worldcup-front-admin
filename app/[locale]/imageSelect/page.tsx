@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import SelectCountModal from '../components/modals/SelectCountModal';
 // import { fetchImages } from '../api/fetchImages'; // api 호출 함수, 시간당 50번이라 가져온 뒤 미사용
-import randomImg from '../../randomImg.json';
+import randomImg from '../../../randomImg.json';
 import Image from 'next/image';
-import { shuffleImgs } from '../../utils/imageUtils';
+import { shuffleImgs } from '../../../utils/imageUtils';
 
 interface Image {
   id: number;

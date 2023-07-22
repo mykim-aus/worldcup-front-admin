@@ -1,0 +1,12 @@
+{
+  "home": { "title": "안녕하세요 여러분" },
+  "auth": {
+    "SignUp": {
+      "title": "회원가입",
+      "form": {
+        "placeholder": "이름을 입력해주세요",
+        "submit": "등록"
+      }
+    }
+  }
+}

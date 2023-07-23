@@ -101,6 +101,8 @@ export default function Tournament() {
       const query = search ? `?${search}` : '';
       const pathname = '../tournamentResult';
       router.push(`${pathname}${query}`);
+
+      //이렇게 하지 말고, 쿠키 저장하고, 페이지 이동 후, 쿠키에서 불러오는 방식으로.
     }
   };
 

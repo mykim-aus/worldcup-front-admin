@@ -18,6 +18,7 @@ const TournamentResultPage = () => {
   return (
     <div>
       <h1>토너먼트 결과 페이지</h1>
+      <h1>쿠키 저장 후 불러오기로 수정</h1>
       {/* <p>이미지 URL: {imageUrl}</p> */}
       {/* 추가적인 내용 */}
     </div>

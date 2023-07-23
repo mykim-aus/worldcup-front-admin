@@ -2,7 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { useLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>{children}</body>
-      <Footer />
+      {/* <Footer /> */}
     </html>
   );
 }

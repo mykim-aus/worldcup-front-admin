@@ -24,7 +24,7 @@ export default function SelectCountModal({
 
   useEffect(() => {
     if (isOpen) {
-      const randomCount = Math.floor(Math.random() * 1) + 32; // 최대 8
+      const randomCount = Math.floor(Math.random() * 1) + 64; // 최대 8
       // const randomCount = Math.floor(Math.random() * 1) + 32; // 최대 8
       // const randomCount = Math.floor(Math.random() * 8000) + 1; // 최대 1~8000
       setImageCount(randomCount);

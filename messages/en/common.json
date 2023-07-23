@@ -19,5 +19,7 @@
   "all": "All",
   "none": "None",
   "more": "More",
-  "loading": "Loading"
+  "loading": "Loading",
+  "ko": "Korean",
+  "en": "English"
 }

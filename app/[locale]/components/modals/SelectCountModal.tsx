@@ -51,9 +51,7 @@ export default function SelectCountModal({
     bodyContent = (
       <div className="flex items-center justify-center">
         <div className="bg-white rounded-lg p-4 w-full">
-          <h1 className="text-black text-center text-lg mb-4">
-            자동차 디자인 월드컵
-          </h1>
+          <h1 className="text-black text-center text-lg mb-4">음식 월드컵</h1>
           <p className="text-black text-center">라운드를 선택하세요</p>
           <div className="mx-auto justify-start">
             <div className="flex flex-wrap justify-center">

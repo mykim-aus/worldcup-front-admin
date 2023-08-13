@@ -1,0 +1,27 @@
+{
+  "ex": "example",
+  "header": {
+    "Logo": "Logo",
+    "MakingGame": "Making Game",
+    "Language": "Language",
+    "Login": "Login"
+  },
+
+  "filter": {
+    "Trending": "Trending",
+    "Newest": "Newest",
+    "All": "All",
+    "Month": "Month",
+    "Week": "Week",
+    "Day": "Day"
+  },
+  "searchingBar": {
+    "input": "Please enter the game title",
+    "searchBtn": "Search"
+  },
+  "game": {
+    "title": "game title",
+    "about": "about",
+    "start": "start"
+  }
+}

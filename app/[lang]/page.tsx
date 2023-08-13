@@ -1,21 +1,13 @@
 'use client';
 
-import RootLayout from './layout';
-import dataList from '../data';
-import Header from './components/Header';
+import RootLayout from '../layout';
+import dataList from '../../data';
+import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useTranslation from 'next-translate/useTranslation';
-import { useAppDispatch } from '../redux/hooks';
-import { changeLangState } from '../redux/features/LanguageSlice';
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(changeLangState(navigator.language.split('-')[0].toUpperCase()));
-  }, []);
-
   const [sort, setSort] = useState('인기순');
   const [range, setRange] = useState('전체');
   const { t, lang } = useTranslation('main');

@@ -1,17 +1,17 @@
 'use client';
 
-import RootLayout from './layout';
-import dataList from '../data';
-import Header from './components/Header';
+import RootLayout from '../layout';
+import dataList from '../../data';
+import Header from '../components/Header';
 import { useEffect, useState } from 'react';
-import { increment } from '../redux/features/CountSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import useTranslation from 'next-translate/useTranslation';
 
 const HomePage = () => {
   const [sort, setSort] = useState('인기순');
   const [range, setRange] = useState('전체');
+  const { t, lang } = useTranslation('main');
+
   return (
     <>
       <div className="container mx-auto max-w-screen-xl  ">
@@ -29,7 +29,7 @@ const HomePage = () => {
                   setSort('인기순');
                 }}
               >
-                인기순
+                {t('filter.Trending')}
               </button>
               <button
                 type="button"
@@ -41,7 +41,7 @@ const HomePage = () => {
                   setSort('최신순');
                 }}
               >
-                최신순
+                {t('filter.Newest')}
               </button>
             </div>
             <div className="inline-flex rounded-md m-2" role="group">
@@ -55,7 +55,7 @@ const HomePage = () => {
                   setRange('전체');
                 }}
               >
-                전체
+                {t('filter.All')}
               </button>
               <button
                 type="button"
@@ -67,7 +67,7 @@ const HomePage = () => {
                   setRange('월');
                 }}
               >
-                월
+                {t('filter.Month')}
               </button>
               <button
                 type="button"
@@ -79,7 +79,7 @@ const HomePage = () => {
                   setRange('주');
                 }}
               >
-                주
+                {t('filter.Week')}
               </button>
               <button
                 type="button"
@@ -91,7 +91,7 @@ const HomePage = () => {
                   setRange('일');
                 }}
               >
-                일
+                {t('filter.Day')}
               </button>
             </div>
           </div>
@@ -99,10 +99,10 @@ const HomePage = () => {
           <div className="m-2 ml-5  flex justify-center w-full max-w-2xl  ">
             <input
               className=" w-2/3 border-l border-t border-b rounded-l-lg pt-2 pb-2 pl-1 "
-              placeholder=" 게임 제목을 입력하세요"
+              placeholder={t('searchingBar.input')}
             />
             <button className="border-r border-t border-b rounded-r-lg pt-2 pb-2 pr-1 pl-1">
-              검색
+              {t('searchingBar.searchBtn')}
             </button>
           </div>
         </div>
@@ -113,15 +113,15 @@ const HomePage = () => {
                 <div className="transition duration-150 h-full max-w-sm hover:ease-in-out hover:scale-110  relative group overflow-hidden  bg-white border border-gray-200 rounded-lg shadow ">
                   <div className=" z-10 absolute flex justify-center items-center bg-black w-full h-full rounded-xl bg-opacity-50 opacity-0 group-hover:opacity-100 ">
                     <h4 className=" text-white font-bold text-2xl ">
-                      시작하기
+                      {t('game.start')}
                     </h4>
                   </div>
 
                   <div className="min-w-full p-2">
                     <h2 className="text-lg font-bold tracking-tight text-gray-900">
-                      {data.gameTitle}
+                      {t('game.title')}
                     </h2>
-                    <h4>{data.content}</h4>
+                    <h4> {t('game.about')}</h4>
                   </div>
                   <div className="grid grid-cols-2 object-center h-5/6  overflow-hidden z-5 ">
                     <div className="">

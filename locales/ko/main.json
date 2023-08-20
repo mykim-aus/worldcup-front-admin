@@ -1,0 +1,27 @@
+{
+  "header": {
+    "Logo": "로고",
+    "MakingGame": "게임 만들기",
+    "Language": "언어",
+    "Login": "로그인"
+  },
+
+  "filter": {
+    "Trending": "인기순",
+    "Newest": "최신순",
+    "All": "전체",
+    "Month": "월",
+    "Week": "주",
+    "Day": "일"
+  },
+  "searchingBar": {
+    "Please enter the game title": "",
+    "input": "게임 제목을 입력하세요",
+    "searchBtn": "검색"
+  },
+  "game": {
+    "title": "게임 제목",
+    "about": "설명",
+    "start": "시작"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "header": {
+    "Logo": "ロゴ",
+    "MakingGame": "ゲーム作り」",
+    "Language": "言語",
+    "Login": "ログイン"
+  },
+
+  "filter": {
+    "Trending": "人気順",
+    "Newest": "最新順",
+    "All": "全体",
+    "Month": "月",
+    "Week": "ジュ",
+    "Day": "仕事"
+  },
+
+  "searchingBar": {
+    "Please enter the game title": "ゲームのタイトルを入力してください",
+    "input": "ゲームのタイトルを入力してください",
+    "searchBtn": "検索"
+  },
+  "game": {
+    "title": "ゲームのタイトル",
+    "about": "説明",
+    "start": "スタート"
+  }
+}

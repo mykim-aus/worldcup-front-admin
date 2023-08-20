@@ -1,0 +1,27 @@
+{
+  "header": {
+    "Logo": "标志",
+    "Making Game": "制作游戏",
+    "Language": "语言",
+    "Login": " 登录"
+  },
+
+  "filter": {
+    "Trending": "人气顺序",
+    "Newest": "崔信顺",
+    "All": "整体",
+    "Month": "月",
+    "Week": "周",
+    "Day": "工作"
+  },
+  "searchingBar": {
+    "Please enter the game title": "请输入游戏名",
+    "input": "请输入游戏名",
+    "searchBtn": "搜索"
+  },
+  "game": {
+    "title": "游戏名",
+    "about": "说明",
+    "start": "开始"
+  }
+}

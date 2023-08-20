@@ -1,10 +1,11 @@
 // i18n.js
 module.exports = {
-  locales: ['en', 'ko'],
+  locales: ['en', 'ko', 'ja', 'cn'],
   defaultLocale: 'en',
 
   pages: {
     '*': ['main'],
-    '/[lang]': ['main'], // app/page.tsx
+    '/': ['main'],
+    '/[lang]': ['main'],
   },
 };

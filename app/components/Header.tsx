@@ -38,7 +38,14 @@ function Header() {
               </Link>
             </button>
             <button className="flex justify-center text-slate-400 px-5 py-3 hover:bg-gray-200">
-              CN
+              <Link href={`/cn`} as={`/cn`}>
+                cn
+              </Link>
+            </button>
+            <button className="flex justify-center text-slate-400 px-5 py-3 hover:bg-gray-200">
+              <Link href={`/ja`} as={`/ja`}>
+                ja
+              </Link>
             </button>
           </div>
         </div>

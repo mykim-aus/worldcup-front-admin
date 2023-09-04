@@ -1,6 +1,9 @@
 {
   "name": "next.frontend",
   "version": "0.1.0",
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,6 +13,7 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",
+    "@prisma/client": "^5.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "20.2.6",
@@ -42,6 +46,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "next-translate-plugin": "^2.5.3",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "prisma": "^5.2.0"
   }
 }

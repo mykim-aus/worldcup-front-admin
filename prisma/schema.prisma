@@ -31,9 +31,10 @@ model Image {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   img_url     String? @db.Text
+  img_name String? @db.Text
   win_count Int @default(0)
-  game      Game     @relation(fields: [gameId], references: [id])
-  gameId    Int
+  game      Game?     @relation(fields: [gameId], references: [id])
+  gameId    Int?
 
   @@index([gameId])
 }

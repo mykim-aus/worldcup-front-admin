@@ -24,7 +24,9 @@ model Game {
   leftImage String? @db.Text
   right   String?   @db.Text
   rightImage    String? @db.Text
+  total_count Int @default(0)
   images Image[]
+  comments Comment[]
 }
 
 model Image {
@@ -36,5 +38,23 @@ model Image {
   game      Game?     @relation(fields: [gameId], references: [id])
   gameId    Int?
 
+  comments Comment[]
   @@index([gameId])
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  content     String
+  gameId      Int
+  game        Game     @relation(fields: [gameId], references: [id])
+  authorId    Int?
+  isAnonymous Boolean  @default(false)
+  image       Image?    @relation(fields: [imageId], references: [id])
+  imageId     Int?
+
+  @@index([gameId])
+  @@index([id])
+  @@index([imageId])
 }

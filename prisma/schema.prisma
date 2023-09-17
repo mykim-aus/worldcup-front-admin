@@ -23,6 +23,17 @@ model Game {
   left     String? @db.Text
   leftImage String? @db.Text
   right   String?   @db.Text
-  rightImage    String? @db.Text 
+  rightImage    String? @db.Text
+  images Image[]
 }
 
+model Image {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  img_url     String? @db.Text
+  win_count Int @default(0)
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    Int
+
+  @@index([gameId])
+}

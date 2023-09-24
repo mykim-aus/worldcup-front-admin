@@ -29,7 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "data.js",
-    "pages/api/[id]ts",
     "pages/api/[id]ts"
   ],
   "exclude": ["node_modules"]

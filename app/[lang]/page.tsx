@@ -6,11 +6,32 @@ import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 
 const HomePage = () => {
   const [sort, setSort] = useState('인기순');
   const [range, setRange] = useState('전체');
   const { t, lang } = useTranslation('main');
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    async function fetchGames() {
+      if (!dataList.length) {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${API_URL}/api/game`, { method: 'GET' });
+        if (response.ok) {
+          const gameList = await response.json();
+          if (JSON.stringify(gameList) !== JSON.stringify(dataList)) {
+            setDataList(gameList);
+          }
+        } else {
+          console.error('API 호출 실패:', response.status);
+        }
+      }
+    }
+
+    fetchGames();
+  }, []); // 종속성 배열에서 games 제거
 
   return (
     <>
@@ -110,34 +131,39 @@ const HomePage = () => {
           {dataList.map((data: any) => {
             return (
               <>
-                <div className="transition duration-150 h-full max-w-sm hover:ease-in-out hover:scale-110  relative group overflow-hidden  bg-white border border-gray-200 rounded-lg shadow ">
-                  <div className=" z-10 absolute flex justify-center items-center bg-black w-full h-full rounded-xl bg-opacity-50 opacity-0 group-hover:opacity-100 ">
-                    <h4 className=" text-white font-bold text-2xl ">
-                      {t('game.start')}
-                    </h4>
-                  </div>
-
-                  <div className="min-w-full p-2">
-                    <h2 className="text-lg font-bold tracking-tight text-gray-900">
-                      {t('game.title')}
-                    </h2>
-                    <h4> {t('game.about')}</h4>
-                  </div>
-                  <div className="grid grid-cols-2 object-center h-5/6  overflow-hidden z-5 ">
-                    <div className="">
-                      <img className=" h-full" src={data.leftImage} alt="" />
-                      <p className=" absolute bottom-3 py-2 flex w-1/2  justify-center font-bold text-white">
-                        {data.left}
-                      </p>
+                <Link href={lang + '/' + encodeURI(data.id) + '/tournament'}>
+                  <div className="transition duration-150 h-full max-w-sm hover:ease-in-out hover:scale-110  relative group overflow-hidden  bg-white border border-gray-200 rounded-lg shadow ">
+                    <div className=" z-10 absolute flex justify-center items-center bg-black w-full h-full rounded-xl bg-opacity-50 opacity-0 group-hover:opacity-100 ">
+                      <h4 className=" text-white font-bold text-2xl ">
+                        {t('game.start')}
+                      </h4>
                     </div>
-                    <div className="">
-                      <img className=" h-full " src={data.rightImage} alt="" />
-                      <p className=" absolute bottom-3 p-2  flex w-1/2  justify-center font-bold  text-white">
-                        {data.right}
-                      </p>
+                    <div className="min-w-full p-2">
+                      <h2 className="text-lg font-bold tracking-tight text-gray-900">
+                        {t('game.title')}
+                      </h2>
+                      <h4> {t('game.about')}</h4>
+                    </div>
+                    <div className="grid grid-cols-2 object-center h-5/6  overflow-hidden z-5 ">
+                      <div className="">
+                        <img className=" h-full" src={data.leftImage} alt="" />
+                        <p className=" absolute bottom-3 py-2 flex w-1/2  justify-center font-bold text-white">
+                          {data.left}
+                        </p>
+                      </div>
+                      <div className="">
+                        <img
+                          className=" h-full "
+                          src={data.rightImage}
+                          alt=""
+                        />
+                        <p className=" absolute bottom-3 p-2  flex w-1/2  justify-center font-bold  text-white">
+                          {data.right}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </>
             );
           })}

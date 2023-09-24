@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "data.js"
+    "data.js",
+    "pages/api/[id]ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -34,6 +34,7 @@ model Image {
   createdAt DateTime @default(now())
   imgUrl     String? @db.Text
   imgName String? @db.Text
+  finalCount Int @default(0)
   winCount Int @default(0)
   game      Game?     @relation(fields: [gameId], references: [id])
   gameId    Int?

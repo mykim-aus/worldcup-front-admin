@@ -12,7 +12,7 @@ export default async function handle(req: any, res: any) {
             id: image.id,
           },
           data: {
-            win_count: image.win_count,
+            winCount: image.winCount,
           },
         });
       }

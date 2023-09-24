@@ -22,7 +22,6 @@ const HomePage = () => {
         if (response.ok) {
           const gameList = await response.json();
           if (JSON.stringify(gameList) !== JSON.stringify(dataList)) {
-            // console.log(gameList[0].id);
             setDataList(gameList);
           }
         } else {

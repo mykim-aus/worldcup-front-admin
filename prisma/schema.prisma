@@ -54,6 +54,7 @@ model Comment {
   isAnonymous     Boolean  @default(false)
   image           Image?    @relation(fields: [imageId], references: [id])
   imageId         Int?
+  reported        Int?     @default(0)
 
   @@index([gameId])
   @@index([id])

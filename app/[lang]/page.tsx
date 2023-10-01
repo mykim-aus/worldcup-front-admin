@@ -1,7 +1,7 @@
 'use client';
 
 import RootLayout from '../layout';
-import dataList from '../../data';
+import dataKo from '../../data_ko';
 import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +18,10 @@ const HomePage = () => {
     async function fetchGames() {
       if (!dataList.length) {
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
-        const response = await fetch(`${API_URL}/api/game`, { method: 'GET' });
+        const response = await fetch(`${API_URL}/api/game?lang=${lang}`, {
+          method: 'GET',
+        });
+
         if (response.ok) {
           const gameList = await response.json();
           if (JSON.stringify(gameList) !== JSON.stringify(dataList)) {
@@ -140,15 +143,15 @@ const HomePage = () => {
                     </div>
                     <div className="min-w-full p-2">
                       <h2 className="text-lg font-bold tracking-tight text-gray-900">
-                        {t('game.title')}
+                        {data.gameTitle}
                       </h2>
-                      <h4> {t('game.about')}</h4>
+                      <h4> {data.content}</h4>
                     </div>
                     <div className="grid grid-cols-2 object-center h-5/6  overflow-hidden z-5 ">
                       <div className="">
                         <img className=" h-full" src={data.leftImage} alt="" />
                         <p className=" absolute bottom-3 py-2 flex w-1/2  justify-center font-bold text-white">
-                          {data.left}
+                          {data.leftName}
                         </p>
                       </div>
                       <div className="">
@@ -158,7 +161,7 @@ const HomePage = () => {
                           alt=""
                         />
                         <p className=" absolute bottom-3 p-2  flex w-1/2  justify-center font-bold  text-white">
-                          {data.right}
+                          {data.rightName}
                         </p>
                       </div>
                     </div>

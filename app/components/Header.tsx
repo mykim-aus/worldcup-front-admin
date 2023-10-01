@@ -28,12 +28,12 @@ function Header() {
 
           <div className="hidden z-50 peer-hover:flex hover:flex w-full flex-col bg-white drop-shadow-lg absolute">
             <button className=" flex justify-center text-slate-400 px-5 py-3 hover:bg-gray-200">
-              <Link href={`/en`} as={`/en`}>
+              <Link href={`/en`} as={`/en`} locale="en">
                 en
               </Link>
             </button>
             <button className=" flex justify-center text-slate-400 px-5 py-3 hover:bg-gray-200">
-              <Link href={`/ko`} as={`/ko`}>
+              <Link href={`/ko`} as={`/ko`} locale="ko">
                 ko
               </Link>
             </button>

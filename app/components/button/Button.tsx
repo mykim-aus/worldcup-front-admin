@@ -7,6 +7,9 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  classStyle?: string;
+  state1?: [string, React.Dispatch<React.SetStateAction<string>>];
+  key?: string | number;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,13 +19,17 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   type,
+  classStyle,
 }) => {
   return (
     <button
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`
+      className={
+        classStyle
+          ? classStyle
+          : `
         relative
         disabled:opacity-70
         disabled:cursor-not-allowed
@@ -38,7 +45,8 @@ const Button: React.FC<ButtonProps> = ({
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
-      `}
+      `
+      }
     >
       {label}
     </button>

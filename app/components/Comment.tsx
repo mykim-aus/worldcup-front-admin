@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { formatDate } from '../../utils/common';
 import Toast from './toast/Toast';
+import axios from 'axios';
 
 export default function Comment(props: any) {
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
@@ -36,42 +37,45 @@ export default function Comment(props: any) {
   const registComments = async () => {
     setIsLoading(true);
 
-    // 등록
-    await fetch(`${API_URL}/api/comment/${gameId}/regist`, {
-      method: 'POST',
-      body: JSON.stringify({
+    try {
+      // 등록
+      await axios.post(`${API_URL}/api/comment/${gameId}/regist`, {
         commentName: postName,
         commentContent: postDetail,
         tId: props.id,
         iId: props.iId,
-      }),
-    });
+      });
 
-    // refresh 댓글 가져오기
-    await getComments();
-
-    setIsLoading(false);
+      // refresh 댓글 가져오기
+      await getComments();
+    } catch (error: any) {
+      console.error(
+        '댓글 등록 실패:',
+        error.response ? error.response.status : error.message,
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   /**
    * 댓글 가져오기
    */
   const getComments = async () => {
-    const response = await fetch(
-      `${API_URL}/api/comment/${gameId}/getComments`,
-      {
-        method: 'GET',
-      },
-    );
-
-    if (response.ok) {
-      const newComments = await response.json();
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/comment/${gameId}/getComments`,
+      );
+      const newComments = response.data;
 
       if (JSON.stringify(comments) !== JSON.stringify(newComments)) {
         setComments(newComments);
       }
-    } else {
-      console.error('API 호출 실패:', response.status);
+    } catch (error: any) {
+      console.error(
+        '댓글 가져오기 실패:',
+        error.response ? error.response.status : error.message,
+      );
     }
   };
 
@@ -81,20 +85,17 @@ export default function Comment(props: any) {
   const reportComment = async (id: any) => {
     const requestComment: any = comments.find((item: any) => item.id === id);
 
-    const response = await fetch(
-      `${API_URL}/api/comment/${gameId}/reportComment`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          id: id,
-          reported: requestComment.reported,
-        }),
-      },
-    );
-
-    if (response.ok) {
-    } else {
-      console.error('삭제 실패:');
+    try {
+      await axios.post(`${API_URL}/api/comment/${gameId}/reportComment`, {
+        id: id,
+        reported: requestComment.reported,
+      });
+      // 처리가 필요한 경우 여기에 추가
+    } catch (error: any) {
+      console.error(
+        '신고 실패:',
+        error.response ? error.response.status : error.message,
+      );
     }
   };
 
@@ -105,28 +106,26 @@ export default function Comment(props: any) {
   const deleteComment = async (id: any) => {
     setIsLoading(true);
     try {
-      console.log(id);
-
-      const response = await fetch(
+      const response = await axios.post(
         `${API_URL}/api/comment/${gameId}/deleteComment`,
         {
-          method: 'POST',
-          body: JSON.stringify({
-            id: id,
-          }),
+          id: id,
         },
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         await getComments();
       } else {
-        console.error('삭제 실패:');
+        console.error('삭제 실패:', response.status);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error: any) {
+      console.error(
+        '삭제 실패:',
+        error.response ? error.response.status : error.message,
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (

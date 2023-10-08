@@ -9,6 +9,7 @@ import Header from '../../../components/Header';
 import Button from '../../../components/button/Button';
 import Input from '../../../components/input/Input';
 import Comment from '../../../components/Comment';
+import axios from 'axios';
 
 interface Image {
   id: number;
@@ -58,15 +59,12 @@ export default async function Tournament(props: any) {
       setState((prevState) => ({ ...prevState, isLoading: true }));
 
       if (!state.oriImages.length) {
-        const response = await fetch(
-          `${API_URL}/api/image/${gameId}/getImages`,
-          {
-            method: 'GET',
-          },
-        );
+        try {
+          const response = await axios.get(
+            `${API_URL}/api/image/${gameId}/getImages`,
+          );
 
-        if (response.ok) {
-          const newOriImages = await response.json();
+          const newOriImages = response.data;
 
           if (
             JSON.stringify(newOriImages) !== JSON.stringify(state.oriImages)
@@ -76,8 +74,11 @@ export default async function Tournament(props: any) {
               oriImages: newOriImages,
             }));
           }
-        } else {
-          console.error('API 호출 실패:', response.status);
+        } catch (error: any) {
+          console.error(
+            'API 호출 실패:',
+            error.response ? error.response.status : error.message,
+          );
         }
       }
       setState((prevState) => ({ ...prevState, isLoading: false }));
@@ -210,24 +211,24 @@ export default async function Tournament(props: any) {
   const updateResult = async (payload: any) => {
     const body = payload.images;
 
-    const response = await fetch(
-      `${API_URL}/api/image/${gameId}/updateResult`,
-      {
-        method: 'POST',
-        body: body,
-      },
-    );
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/image/${gameId}/updateResult`,
+        body,
+      );
 
-    if (response.ok) {
-      const newOriImages = await response.json();
+      const newOriImages = response.data;
       if (JSON.stringify(newOriImages) !== JSON.stringify(state.oriImages)) {
         setState((prevState) => ({
           ...prevState,
           oriImages: newOriImages,
         }));
       }
-    } else {
-      console.error('API 호출 실패:', response.status);
+    } catch (error: any) {
+      console.error(
+        'API 호출 실패:',
+        error.response ? error.response.status : error.message,
+      );
     }
   };
 

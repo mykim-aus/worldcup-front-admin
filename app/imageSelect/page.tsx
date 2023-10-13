@@ -16,7 +16,7 @@ interface Image {
 export default function Tournament() {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams: any = useSearchParams();
   const [isModalOpen, setModalOpen] = useState(true); // 모달 여닫기 상태
   const [totalRound, setTotalRound] = useState<number>(0); // 총 라운드
   const [images, setImages] = useState<string[]>([]); // 총 이미지 배열 현재는 string 배열
@@ -98,7 +98,9 @@ export default function Tournament() {
     } else {
       const finalImage = images[clickedIndex];
 
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      const entries = Array.from(searchParams.entries());
+
+      const current = new URLSearchParams(entries as any);
       current.set('finalImage', finalImage);
       const search = current.toString();
       const query = search ? `?${search}` : '';
